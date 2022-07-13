@@ -1,0 +1,13 @@
+ul {
+  display: flex;
+  list-style-type: none;
+}
+ul > * {
+  margin-right: 15px;
+}
+
+ul a {
+  text-decoration: none;
+  color: purple;
+  font-weight: 500;
+}
