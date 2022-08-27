@@ -4,7 +4,6 @@ import axios from 'axios';
 export const ResourceLoader = ({ resourceUrl, resourceName, children }) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  // console.log(location);
 
   const fetchData = async () => {
     setLoading(true);

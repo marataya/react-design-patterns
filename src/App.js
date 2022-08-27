@@ -9,10 +9,13 @@ import { Routes, Route } from 'react-router-dom'
 import NavBar from './NavBar'
 import { Modal } from './Modal'
 import { CurrentUserLoader } from './CurrentUserLoader'
-import {UserInfo} from './container/UserInfo'
+import { UserInfo } from './container/UserInfo'
 import { UserLoader } from './UserLoader'
 import { ResourceLoader } from './ResourceLoader'
 import { ProductInfo } from './container/ProductInfo'
+import { DataSource } from './Datasource'
+import axios from 'axios';
+
 
 
 const LeftHandComponent = () => {
@@ -88,6 +91,11 @@ const products = [
   }
 ]
 
+const getServerData = (url) => async () => {
+  const controller = new AbortController();
+  const response = await axios.get('http://localhost:8080' + url, {signal: controller.signal});
+  return response.data;
+}
 
 function App() {
   return (
@@ -117,26 +125,15 @@ function App() {
               <UserInfo />
             </UserLoader>} />
 
-          {/* <Route path='/resourceloader_user' element={
-            <DataSource resourceName="user" getDataFunc={
-              async () => {
-                const response = axios.get('http://localhost:8080' + '/users/03');
-                return response.data;
-              }
-            }>
+          <Route path='/resourceloader_user_datasource' element={
+            <DataSource resourceName="user" getDataFunc={getServerData('/users/01')}>
               <UserInfo />
-            </DataSource>} /> */}
+            </DataSource>} />
 
-          {/* <Route path='/resourceloader_product' element={
-            <DataSource resourceName="product" getDataFunc={
-              async () => {
-                console.log('http://localhost:8080' + '/products/02');
-                const response = axios.get('http://localhost:8080' + '/products/02');
-                return response.data;
-              }
-            }>
+          <Route path='/resourceloader_product_datasource' element={
+            <DataSource resourceName="product" getDataFunc={getServerData('/products/02')}>
               <ProductInfo />
-            </DataSource>} /> */}
+            </DataSource>} />
           <Route path='/resourceloader_user' element={
             <ResourceLoader resourceUrl="/users/02" resourceName="user">
               <UserInfo />
