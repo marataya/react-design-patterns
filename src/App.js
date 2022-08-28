@@ -21,6 +21,10 @@ import { ControlledModal } from './ControlledModal'
 import { useState } from 'react'
 import UncontrolledOnboardingFlow from './UncontrolledOnboardingFlow'
 import ControlledOnboardingFlow from './ControlledOnboardingFlow'
+import printProps from './printProps'
+import withUser from './withUser'
+import UserInfoForm from './UserInfoForm'
+import UserInfoFormV2 from './UserInfoFormV2'
 
 
 
@@ -158,6 +162,8 @@ function App() {
     setCurrentIndex(currentIndex + 1)
   }
 
+  const UserInfoWithLoader = withUser(UserInfo, '01');
+
   return (
     <div className="App">
       <NavBar />
@@ -249,6 +255,12 @@ function App() {
             </ControlledOnboardingFlow>
           } />
 
+          <Route path='printprops' element={<UserInfoWithLoader/>} />
+          
+          <Route path='edit_user' element={<UserInfoForm/>} />
+          
+          {/* <Route path='edit_user_v2' element={<UserInfoFormV2/>} /> */}
+        
         </Route>
         <Route path="*" element={<main style={{ padding: "1rem" }}> <h1>404</h1> <p>Page Not Found</p> </main>} />
 

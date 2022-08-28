@@ -20,6 +20,9 @@ const NavBar = () => {
       <li><Link to='/controlled_form'>Controlled Form</Link></li>
       <li><Link to='/uncontrolled_onboarding'>Uncontrolled Onboarding Flow</Link></li>
       <li><Link to='/controlled_onboarding'>Controlled Onboarding Flow</Link></li>
+      <li><Link to='/printprops'>printProps HOC</Link></li>
+      <li><Link to='/edit_user'>Edit User HOC</Link></li>
+      <li><Link to='/edit_user_v2'>Edit User HOC-V2</Link></li>
     </ul>
   )
 }
