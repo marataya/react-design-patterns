@@ -5,20 +5,20 @@ import { useLocation } from 'react-router-dom';
 export const DataSource = ({ getDataFunc = () => { }, resourceName, children }) => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const mounted = useRef(false);
 
 
   useEffect(() => {
-    mounted.current = true;
     setLoading(true);
     (async () => {
-      const data = await getDataFunc();
-      if (mounted.current === true) {
-        setData(data)
+      let async = false;
+      if (getDataFunc.constructor.name === "AsyncFunction") {
+        async = true
       }
-      setLoading(false)
+      const { data, controller } = async ? await getDataFunc() : getDataFunc();
+      setData(data)
+      setLoading(false);
+      return () => { controller?.abort() };
     })();
-    return () => {mounted.current = false;}
   }, [getDataFunc])
 
   return (

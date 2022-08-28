@@ -93,9 +93,20 @@ const products = [
 
 const getServerData = (url) => async () => {
   const controller = new AbortController();
-  const response = await axios.get('http://localhost:8080' + url, {signal: controller.signal});
-  return response.data;
+  const response = await axios.get('http://localhost:8080' + url, { signal: controller.signal });
+  return { "data": response.data, controller };
 }
+
+const getLocalStorageData = (key) => () => {
+  const controller = new AbortController();
+  return {"data": localStorage.getItem(key), controller}
+}
+
+const Text = ({ message }) => { 
+  console.log(message)
+  console.log(typeof message)
+  let m = message+"";
+  return (<h1>{m}</h1>) }
 
 function App() {
   return (
@@ -125,23 +136,37 @@ function App() {
               <UserInfo />
             </UserLoader>} />
 
-          <Route path='/resourceloader_user_datasource' element={
+          {/* DataLoader */}
+
+          <Route path='/datasource_user' element={
             <DataSource resourceName="user" getDataFunc={getServerData('/users/01')}>
               <UserInfo />
             </DataSource>} />
 
-          <Route path='/resourceloader_product_datasource' element={
+          <Route path='/datasource_product' element={
             <DataSource resourceName="product" getDataFunc={getServerData('/products/02')}>
               <ProductInfo />
             </DataSource>} />
+
+          <Route path='/datasource_localstorage' element={
+            <DataSource getDataFunc={getLocalStorageData('message')} resourceName="message">
+              <Text   />
+              {/* {null} */}
+            </DataSource>} />
+
+
+          {/* ResourceLoader */}
+
           <Route path='/resourceloader_user' element={
             <ResourceLoader resourceUrl="/users/02" resourceName="user">
               <UserInfo />
             </ResourceLoader>} />
+
           <Route path='/resourceloader_product' element={
             <ResourceLoader resourceUrl="/products/01" resourceName="product">
               <ProductInfo />
             </ResourceLoader>} />
+            
         </Route>
         <Route path="*" element={<main style={{ padding: "1rem" }}> <h1>404</h1> <p>Page Not Found</p> </main>} />
       </Routes>

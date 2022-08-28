@@ -1,6 +1,6 @@
 export const UserInfo = ({ user }) => {
   const { name, age, hairColor, hobbies } = user || {};
-  console.log('UserInfo', user);
+  // console.log('UserInfo', user);
   return (
     <>
       <h3>{name}</h3>

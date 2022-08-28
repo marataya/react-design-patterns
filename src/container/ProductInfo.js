@@ -1,6 +1,6 @@
 export const ProductInfo = ({ product }) => {
-  console.log('ProductInfo', product);
   const { name, price, description, rating } = product || {};
+  // console.log('ProductInfo', product);
 
   return (
     <>

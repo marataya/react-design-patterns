@@ -12,7 +12,6 @@ export const ResourceLoader = ({ resourceUrl, resourceName, children }) => {
 
     axios.get('http://localhost:8080' + resourceUrl, { signal: controller.signal })
       .then((res) => {
-        console.log(res.data);
         setData(res.data);
         setLoading(false);
       })
