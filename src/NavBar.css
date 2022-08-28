@@ -1,9 +1,12 @@
 ul {
   display: flex;
   list-style-type: none;
+  flex-wrap:wrap;
 }
 ul > * {
   margin-right: 15px;
+  padding: 5px 15px;
+  border: 1px solid green;
 }
 
 ul a {

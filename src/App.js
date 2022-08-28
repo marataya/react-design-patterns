@@ -7,7 +7,7 @@ import { NumberedList } from './NumberedList'
 import RegularList from './RegularList'
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './NavBar'
-import { Modal } from './Modal'
+import { UncontrolledModal } from './UncontrolledModal'
 import { CurrentUserLoader } from './CurrentUserLoader'
 import { UserInfo } from './container/UserInfo'
 import { UserLoader } from './UserLoader'
@@ -15,6 +15,12 @@ import { ResourceLoader } from './ResourceLoader'
 import { ProductInfo } from './container/ProductInfo'
 import { DataSource } from './Datasource'
 import axios from 'axios';
+import UncontrolledForm from './UncontrolledForm'
+import ControlledForm from './ControlledForm'
+import { ControlledModal } from './ControlledModal'
+import { useState } from 'react'
+import UncontrolledOnboardingFlow from './UncontrolledOnboardingFlow'
+import ControlledOnboardingFlow from './ControlledOnboardingFlow'
 
 
 
@@ -91,6 +97,8 @@ const products = [
   }
 ]
 
+// service functions
+
 const getServerData = (url) => async () => {
   const controller = new AbortController();
   const response = await axios.get('http://localhost:8080' + url, { signal: controller.signal });
@@ -99,16 +107,57 @@ const getServerData = (url) => async () => {
 
 const getLocalStorageData = (key) => () => {
   const controller = new AbortController();
-  return {"data": localStorage.getItem(key), controller}
+  return { "data": localStorage.getItem(key), controller }
 }
 
-const Text = ({ message }) => { 
+const Text = ({ message }) => {
   console.log(message)
   console.log(typeof message)
-  let m = message+"";
-  return (<h1>{m}</h1>) }
+  let m = message + "";
+  return (<h1>{m}</h1>)
+}
+
+
+
+const StepOne = ({ gotoNext }) => {
+  return <>
+    <h1>Step 1</h1>
+    <button onClick={() => gotoNext({ name: "Mothefucker" })}>Next</button>
+  </>
+}
+
+const StepTwo = ({ gotoNext }) => {
+  return <>
+    <h1>Step 2</h1>
+    <button onClick={() => gotoNext({ age: 55 })}>Next</button>
+  </>
+}
+
+const StepThree = ({ gotoNext }) => {
+  return <>
+    <h1>Step 3</h1>
+    <p>Congratz you qualify for our senior discount</p>
+    <button onClick={() => gotoNext({})}>Next</button>
+  </>
+}
+
+const StepFour = ({ gotoNext }) => {
+  return <>
+    <h1>Step 4</h1>
+    <button onClick={() => gotoNext({ hairColor: 'orange' })}>Next</button>
+  </>
+}
 
 function App() {
+  const [shouldShowModal, setShouldShowModal] = useState(false);
+  const [onboardingData, setOnboardingData] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const onNext = stepData => {
+    setOnboardingData({ ...onboardingData, ...stepData });
+    setCurrentIndex(currentIndex + 1)
+  }
+
   return (
     <div className="App">
       <NavBar />
@@ -120,10 +169,22 @@ function App() {
               <LeftHandComponent />
               <RightHandComponent />
             </SplitScreen>} />
-          <Route path='/modal' element={
-            <Modal>
+
+          <Route path='/uncontrolled_modal' element={
+            <UncontrolledModal>
               <LargeProductListItem product={products[0]} />
-            </Modal>
+            </UncontrolledModal>
+          } />
+
+          <Route path='/controlled_modal' element={
+            <><ControlledModal
+              shouldShow={shouldShowModal}
+              onRequestClose={() => setShouldShowModal(false)}
+            >
+              <LargeProductListItem product={products[0]} />
+            </ControlledModal>
+              <button onClick={() => setShouldShowModal(!shouldShowModal)}> {shouldShowModal ? 'Hide Modal' : 'Show Modal'} </button>
+            </>
           } />
 
           <Route path='/currentuserloader' element={
@@ -150,7 +211,7 @@ function App() {
 
           <Route path='/datasource_localstorage' element={
             <DataSource getDataFunc={getLocalStorageData('message')} resourceName="message">
-              <Text   />
+              <Text />
               {/* {null} */}
             </DataSource>} />
 
@@ -166,9 +227,31 @@ function App() {
             <ResourceLoader resourceUrl="/products/01" resourceName="product">
               <ProductInfo />
             </ResourceLoader>} />
-            
+
+          <Route path='/uncontrolled_form' element={<UncontrolledForm />} />
+
+          <Route path='/controlled_form' element={<ControlledForm />} />
+
+          <Route path='/uncontrolled_onboarding' element={
+            <UncontrolledOnboardingFlow onFinish={data => { console.log(data); alert('Onboarding complete'); }}>
+              <StepOne key='01' />
+              <StepTwo key='02' />
+              <StepThree key='03' />
+            </UncontrolledOnboardingFlow>
+          } />
+
+          <Route path='/controlled_onboarding' element={
+            <ControlledOnboardingFlow currentIndex={currentIndex} onNext={onNext} onFinish={data => { console.log(data); alert('Onboarding complete'); }}>
+              <StepOne key='01' />
+              <StepTwo key='02' />
+              { onboardingData.age >=62 && <StepThree key='03' />}
+              <StepFour key='04' />
+            </ControlledOnboardingFlow>
+          } />
+
         </Route>
         <Route path="*" element={<main style={{ padding: "1rem" }}> <h1>404</h1> <p>Page Not Found</p> </main>} />
+
       </Routes>
 
     </div >
