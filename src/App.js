@@ -27,6 +27,7 @@ import UserInfoForm from './UserInfoForm'
 import UserInfoFormV2 from './UserInfoFormV2'
 import MultipleHOCs from './AllUsers'
 import AllUsers from './AllUsers'
+import RecursiveComponent from './RecursiveComponent'
 
 
 
@@ -102,6 +103,27 @@ const products = [
     rating: 4.2
   }
 ]
+
+const employeeInfo = {
+  // a: 1,
+  // b: 2,
+  employeeName: "John Doe",
+  employeeId: 27,
+  salary: {
+      "2018-19": "400000INR",
+      "2019-20": "500000INR",
+      "2020-21": "650000INR"
+  },
+  address: {
+      locality: {
+          address1: "1600 pebble road",
+          address2: "Nearby XYZ Bank",
+      },
+      city: "Mumbai",
+      state: "Maharashtra",
+      country: "India"
+  }
+}
 
 // service functions
 
@@ -264,6 +286,8 @@ return (
         <Route path='edit_user' element={<UserInfoForm />} />
 
         <Route path='edit_user_v2' element={<UserInfoFormV2 />} />
+
+        <Route path='recursive_component' element={<RecursiveComponent data={employeeInfo} />} />
 
       </Route>
       <Route path="*" element={<main style={{ padding: "1rem" }}> <h1>404</h1> <p>Page Not Found</p> </main>} />

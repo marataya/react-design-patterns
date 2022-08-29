@@ -23,6 +23,7 @@ const NavBar = () => {
       <li><Link to='/printprops'>printProps HOC</Link></li>
       <li><Link to='/edit_user'>Edit User HOC</Link></li>
       <li><Link to='/edit_user_v2'>Edit User HOC-V2</Link></li>
+      <li><Link to='/recursive_component'>Recursive Component</Link></li>
     </ul>
   )
 }
