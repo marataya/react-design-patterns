@@ -1,5 +1,6 @@
 import React from 'react'
 import { UserInfo } from "./container/UserInfo";
+import { UserInfoV2 } from './UserInfoV2';
 import withUser from "./withUser";
 
 const UserData1 = withUser(UserInfo, '01');
@@ -11,8 +12,8 @@ const AllUsers = () => {
   return (
     <>
       <UserData1 />
-      <UserData2 />
-      <UserData3 />
+      <UserInfoV2 userId={'02'} />
+      <UserInfoV2 userId={'03'} />
     </>
   )
 }

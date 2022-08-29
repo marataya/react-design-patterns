@@ -15,7 +15,7 @@ const withUser = (Component, userId) => {
         setUser(response.data)
         setLoading(false);
       })();
-    }, []);
+    }, [userId]);
 
     return !loading ? <Component {...props} user={user}/> : <p>Loading...</p>
   }
