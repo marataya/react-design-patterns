@@ -1,5 +1,5 @@
 import React from 'react'
-import withEditableResource from './withEditableResource'
+import withEditableResource from './withEditableResource.js'
 
 const UserInfoFormV2 = withEditableResource(({ user, onChangeUser, onSaveUser, onResetUser }) => {
   const { name, age, hairColor } = user || {}

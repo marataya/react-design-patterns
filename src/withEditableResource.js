@@ -10,12 +10,12 @@ const withEditableResource = (Component, resourcePath, resourceName) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-      setLoading(true)
+      setLoading(true);
       (async () => {
-        const response = await axios.get(resourcePath)
-        setOriginalData(response.data)
-        setData(response.data)
-        setLoading(false)
+        const response = await axios.get(resourcePath);
+        setOriginalData(response.data);
+        setData(response.data);
+        setLoading(false);
       })();
     }, []);
 
@@ -24,13 +24,13 @@ const withEditableResource = (Component, resourcePath, resourceName) => {
     }
 
     const onSave = async () => {
-      const response = await axios.post(resourcePath, { [resourceName]: data })
-      setOriginalData(response.data)
-      setData(response.data)
+      const response = await axios.post(resourcePath, { [resourceName]: data });
+      setOriginalData(response.data);
+      setData(response.data);
     }
 
     const onReset = async () => {
-      setData(originalData)
+      setData(originalData);
     }
 
     const resourceProps = {
